@@ -1,0 +1,104 @@
+#!/bin/sh
+
+#  spine               Startup script for the Spine Agent
+#  
+#  chkconfig: - 96 18
+#  description: Spine Agent is used for cacti tool that monitoring all servers in cluster about there daily load balance average
+#  processname: spine
+#  config: /usr/local/cacti-spine/etc/spine.conf
+#  pidfile: /var/run/spine.pid
+#  Created by MACBOOKPRO01 on 8/14/16.
+#######   BEGIN INIT INFO #######
+#  Provides: spine
+#  Required-Start: $local_fs $network
+#  Required-Stop: $local_fs $network
+#  Should-Start: distcache
+#  Short-Description: start and stop spine
+#  Description: Spine Agent is used for cacti
+#######  END  INFO  #######
+
+# Source function library.
+. /etc/init.d/functions
+
+#  Checking config file in sysconfig
+if [ -f /etc/sysconfig/spine ];
+    then
+        . /etc/sysconfig/spine
+fi
+
+#  Define all configurateion functions
+spine=${SPINE-/usr/local/cacti-spine/bin/spine}
+prog=spine
+pidfile=${PIDFILE-/var/run/spine.pid}
+lockfile=${LOCKFILE-/var/lock/subsys/spine}
+RETVAL=0
+STOP_TIMEOUT={STOP_TIMEOUT-5}
+#  Get start stop reload and such functions
+start(){
+    echo -n $"Starting $prog:"
+    daemon --pidfile=${pidfile} $spine $OPTIONS
+    RETVAL=$?
+    echo
+    [ $RETVAL = 0 ] && touch ${lockfile}
+    return $RETVAL
+}
+
+#  Before stop spine service, it will get 5 seconds delay to make sure the servcie can work smoothly.
+stop(){
+status -p ${pidfile} $spine > /dev/null
+if [[ $? = 0 ]];
+    then
+    echo -n $"Stopping $prog:"
+killproc -p ${pidfile} -d ${STOP_TIMEOUT} $spine
+else
+    echo -n $"Stopping $prog:"
+    success
+fi
+    RETVAL=$?
+    echo
+[ $RETVAL = 0 ] && rm -f ${lockfile} {pidfile}
+}
+
+reload(){
+echo -n $"Reloading $prog:"
+#  Force LSB behaviour from killproc
+LSB=l killproc -p ${pidfile} $spine -HUP
+RETVAL=$?
+if [ $RETVAL -eq 7 ];
+    then
+failure $"spine shutdown"
+fi
+echo
+}
+#  Call the function
+case "$1" in
+start)
+start
+;;
+stop)
+stop
+;;
+status)
+status -p ${pidfile} $spine
+RETVAL=$?
+;;
+restart)
+stop
+start
+;;
+condrestart|try-restart)
+if status -p ${pidfile} $spine >&/dev/null;
+then
+    stop
+start
+fi
+;;
+forece-reload|reload)
+reload
+;;
+*)
+echo $"Usage: $prog {start|stop|restart|condrestart|try-restart|force-reload|reload|status}"
+RETVAL=2
+esac
+exit $RETVAL
+
