@@ -1,0 +1,4 @@
+for linux system
+use tr as below:
+tr -d /* this is trim characters with delete function. if your want delete some unwanted characters in a sentence or a word.
+tr is more useful when you want to cut some aphabet character.
