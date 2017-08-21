@@ -16,7 +16,8 @@ do
            else
               echo
            fi
-  elif [ $os_no -lt 6 ]&&[ $os_no -gt 0];
+  elif [ $os_no -lt 6 ]&&[ $os_no -gt 0 ];
+      then
          service sendmail stop
          chkconfig sendmail off
   else
@@ -31,6 +32,7 @@ do
            fi
          systemctl stop firewalld
        systemctl disable firewalld
+  fi
 done
 # disable selinux for users
 grep "SELINUX=enforcing" /etc/selinux/config 2>/dev/null
@@ -47,8 +49,8 @@ if [ $? -eq 0 ];
 	then
 		echo "History Record profile was configured by Administrator."
 else		
-    sed '/sw=4/aHISTTIMEFORMAT=\"\%F\ \%T\ \"/' /etc/bashrc
-    sed -i 's/\(HISTSIZE=\)1000/\15000/' /etc/bashrc
+    sed -i '/sw=4/a\HISTTIMEFORMAT=\"\%F\ \%T\ \"' /etc/bashrc
+    sed -i 's/\(HISTSIZE=\)1000/\15000/' /etc/profile
 fi
 # Modify mount file for purpose usage.
 # For /tmp /var add nodev nosuid parameters
@@ -59,9 +61,8 @@ fi
 		chmod 400 /etc/securetty
 		
 		
-if [ $os_no -lt 7 ];
+if [ $os_no -lt 7 ]&&[ $os_no -gt 0 ];
 	then
-    chmod 600 /boot/grub/grub.conf
     # get user all actions in system in below 6
     echo "-a exit,always -F arch=b64 -S execve -k exec" >> /etc/audit/audit.rules
     echo "-a exit,always -F arch=b32 -S execve -k exec" >> /etc/audit/audit.rules
@@ -87,12 +88,13 @@ if [ $os_no -lt 7 ];
     echo "-w /etc/sysconfig/i18n -p wa -k i18n" >> /etc/audit/audit.rules
     echo "-w /etc/sysconfig/network -p wa -k network"  >> /etc/audit/audit.rules
     # echo "-w /etc/multipath.conf -p wa -k multipath" >> /etc/audit/rules.d/audit.rules
-elif [ $os_no -le 5 ];
+elif [ $os_no -le 5 ]&&[ $os_no -gt 0 ];
+    then
        echo "-w /etc/syslog.conf -p wa -k syslog" >> /etc/audit/audit.rules
 elif [ $os_no -lt 7 ]&&[ $os_no -ge 6 ];
+    then
            echo "-w /etc/rsyslog.conf -p wa -k rsyslog" >> /etc/audit/audit.rules 
 else
-    chmod 600 /boot/grub2/grub.conf
     # get user all actions in system in 7
      echo "-a exit,always -F arch=b64 -S execve -k exec" >> /etc/audit/rules.d/audit.rules
      echo "-a exit,always -F arch=b32 -S execve -k exec" >> /etc/audit/rules.d/audit.rules
