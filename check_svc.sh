@@ -1,7 +1,7 @@
 #!/bin/bash
 # check the System OS version.
 # Authorized by eason
-os_no=`cat /etc/issue|head -n 1|awk '{printf("%d\n", $3)}'`
+os_no=`cat /etc/redhat-release|head -n 1|awk '{printf("%d\n", $3)}'`
 for i in cups pcscd alsasound iscsitarget smb acpid iptables ip6tables
 do
   if [ $os_no -lt 7 ]&&[ $os_no -gt 5 ];
