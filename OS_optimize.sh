@@ -230,7 +230,7 @@ sed -i 's/^#PermitRootLogin[[:space:]]*yes/PermitRootLogin\ no/' /etc/ssh/sshd_c
 sed -i 's/^#RhostsRSAAuthentication/RhostsRSAAuthentication/' /etc/ssh/sshd_config
 sed -i 's/^#IgnoreUserKnownHosts[[:space:]]*yes/IgnoreUserKnownHosts no/' /etc/ssh/sshd_config
 sed -i 's/^#PermitEmptyPasswords/PermitEmptyPasswords/' /etc/ssh/sshd_config
-grep "Ciphers" /etc/ssh/sshd_config
+grep "^Ciphers" /etc/ssh/sshd_config
 if [ $? -eq 0 ];then
 	 echo "Encrypt method is set."
 else
