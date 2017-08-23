@@ -156,7 +156,11 @@ sed -i 's/\(flush=\).*/\1NONE/' /etc/audit/auditd.conf
 # sed -i 's/\(active=\).*/\1yes/' >> /etc/audisp/plugins.d/syslog.conf
 # sed -i 's/\(args=\).*/\1LOG_LOCAL2/' >> /etc/audisp/plugins.d/syslog.conf
 # Disable USB devices in Server
-echo "install usb-storage /bin/true" >> /etc/modprobe.d/usb-storage.conf
+grep usb-storage /etc/modprobe.d/usb-storage.conf 2>/dev/null
+if [ $? -eq 0 ];then
+else
+     echo "install usb-storage /bin/true" >> /etc/modprobe.d/usb-storage.conf
+fi
 # Disable Server Ctrl+ALT+DEL hotkeys
 if [ $os_no -lt 6];
 	then
@@ -181,12 +185,23 @@ sed -i 's/^\(PASS_MAX_DAYS[[:space:]]*\).*/\190/' /etc/login.defs
 sed -i 's/^\(PASS_MIN_DAYS[[:space:]]*\).*/\11/' /etc/login.defs
 sed -i 's/^\(PASS_MIN_LEN[[:space:]]*\).*/\18/' /etc/login.defs
 sed -i 's/^\(PASS_WARN_AGE[[:space:]]*\).*/\17/' /etc/login.defs
-echo "LOG_UNKFAIL_ENAB        yes" >> /etc/login.defs
-echo "LOGIN_RETRIES           6"  >> /etc/login.defs
-echo "LASTLOG_ENAB           yes" >> /etc/login.defs
+for l in UNKFAIL RETRIES LOSTLOG
+do
+grep $i /etc/login.defs
+if [ $? -eq 0 ];then
+else
+   echo "LOG_UNKFAIL_ENAB        yes" >> /etc/login.defs
+   echo "LOGIN_RETRIES           6"  >> /etc/login.defs
+   echo "LASTLOG_ENAB           yes" >> /etc/login.defs
+fi
+done
 chmod 600 /etc/login.defs
 # Set timeout session for ssh or tty login
-echo "TMOUT=300" >> /etc/profile
+grep TMOUT /etc/profile
+if [ $? -eq 0 ];then
+else
+    echo "TMOUT=300" >> /etc/profile
+fi
 # set retry login for user and lock for 5 minutes if user retry for 3 times
 if [ $os_no -le 5 ];
 	then
@@ -209,8 +224,16 @@ sed -i 's/^#PermitRootLogin[[:space:]]*yes/PermitRootLogin\ no/' /etc/ssh/sshd_c
 sed -i 's/^#RhostsRSAAuthentication/RhostsRSAAuthentication/' /etc/ssh/sshd_config
 sed -i 's/^#IgnoreUserKnownHosts[[:space:]]*yes/IgnoreUserKnownHosts no/' /etc/ssh/sshd_config
 sed -i 's/^#PermitEmptyPasswords/PermitEmptyPasswords/' /etc/ssh/sshd_config
-echo "Ciphers 3des-cbc" >>/etc/ssh/sshd_config
-echo "MACs hmac-sha1,hmac-md5" >> /etc/ssh/sshd_config
+grep Ciphers /etc/ssh/sshd_config
+if [ $? -eq 0 ];then
+else
+   echo "Ciphers 3des-cbc" >>/etc/ssh/sshd_config
+fi
+grep MACs /etc/ssh/sshd_config
+if [ $? -eq 0 ];then
+else
+   echo "MACs hmac-sha1,hmac-md5" >> /etc/ssh/sshd_config
+fi
 ############################################################     #######################################################
 ######       This the end of the main script!!!       ######     #####                 Eason Xu                    #####
 ############################################################     #######################################################
