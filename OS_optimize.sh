@@ -147,9 +147,9 @@ if [ $? -eq 0 ];
 	then
 		echo "History Record profile was configured by Administrator."
 else		
-    sed '/sw=4/aHISTTIMEFORMAT=\"\%F\ \%T\ \"/' /etc/bashrc
-    sed -i 's/\(HISTSIZE=\)1000/\15000/' /etc/bashrc
+    sed -i '/sw=4/a\HISTTIMEFORMAT=\"\%F\ \%T\ \"' /etc/bashrc
 fi
+    sed -i 's/\(HISTSIZE=\)1000/\15000/' /etc/profile
 # Modify mount file for purpose usage.
 # For /tmp /var add nodev nosuid parameters
 # For /home add nosuid parameters,also add errors=panic for all ext3 and ext4 fs mount type use errors=panic
