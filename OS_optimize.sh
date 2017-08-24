@@ -23,62 +23,64 @@ do
            			echo "All parameters were configured by Administrator."
            		else
                 # get user all actions in system in below 6
-                echo "-a exit,always -F arch=b64 -S execve -k exec" >> /etc/audit/audit.rules
-                echo "-a exit,always -F arch=b32 -S execve -k exec" >> /etc/audit/audit.rules
-                echo "-w /etc/crontab -p wa -k crontab" >> /etc/audit/audit.rules
-                echo "-w /etc/hosts -p wa -k hosts" >> /etc/audit/audit.rules
-                echo "-w /etc/hosts.allow -p wa -k hosts-allow" >> /etc/audit/audit.rules
-                echo "-w /etc/hosts.deny -p wa -k hosts-deny" >> /etc/audit/audit.rules
-                echo "-w /etc/fstab -p wa -k fstab" >> /etc/audit/audit.rules
-                echo "-w /etc/passwd -p wa -k passwd" >> /etc/audit/audit.rules
-                echo "-w /etc/shadow -p wa -k shadow" >> /etc/audit/audit.rules
-                echo "-w /etc/group -p wa -k group" >> /etc/audit/audit.rules
-                echo "-w /etc/gshadow -p wa -k gshadow" >> /etc/audit/audit.rules
-                echo "-w /etc/ntp.conf -p wa -k ntp"  >> /etc/audit/audit.rules
-                echo "-w /etc/sysctl.conf -p wa -k sysctl" >> /etc/audit/audit.rules
-                echo "-w /etc/security/limits.conf -p wa -k limits" >> /etc/audit/audit.rules
-                echo "-w /boot/grub/grub.conf -p wa -k grub" >> /etc/audit/audit.rules
-                echo "-w /etc/ssh/sshd_config -p wa -k ssh"  >> /etc/audit/audit.rules 
-                echo "-w /etc/udev/rules.d/ -p wa -k udev" >> /etc/audit/audit.rules
-                echo "-w /etc/profile -p wa -k profile" >> /etc/audit/audit.rules
-                echo "-w /etc/kdump.conf -p wa -k kdump" >> /etc/audit/audit.rules
-                echo "-w /etc/lvm/lvm.conf -p wa -k lvm" >> /etc/audit/audit.rules
-                echo "-w /etc/login.defs -p wa -k login-defs" >> /etc/audit/audit.rules
-                echo "-w /etc/sysconfig/i18n -p wa -k i18n" >> /etc/audit/audit.rules
-                echo "-w /etc/sysconfig/network -p wa -k network"  >> /etc/audit/audit.rules
-                echo "-w /etc/rsyslog.conf -p wa -k rsyslog" >> /etc/audit/audit.rules
-                  # echo "-w /etc/multipath.conf -p wa -k multipath" >> /etc/audit/rules.d/audit.rules
+                exec 1>>/etc/audit/audit.rules
+                echo "-a exit,always -F arch=b64 -S execve -k exec"  
+                echo "-a exit,always -F arch=b32 -S execve -k exec"  
+                echo "-w /etc/crontab -p wa -k crontab"  
+                echo "-w /etc/hosts -p wa -k hosts"  
+                echo "-w /etc/hosts.allow -p wa -k hosts-allow"  
+                echo "-w /etc/hosts.deny -p wa -k hosts-deny"  
+                echo "-w /etc/fstab -p wa -k fstab"  
+                echo "-w /etc/passwd -p wa -k passwd"  
+                echo "-w /etc/shadow -p wa -k shadow"  
+                echo "-w /etc/group -p wa -k group"  
+                echo "-w /etc/gshadow -p wa -k gshadow"  
+                echo "-w /etc/ntp.conf -p wa -k ntp"   
+                echo "-w /etc/sysctl.conf -p wa -k sysctl"  
+                echo "-w /etc/security/limits.conf -p wa -k limits"  
+                echo "-w /boot/grub/grub.conf -p wa -k grub"  
+                echo "-w /etc/ssh/sshd_config -p wa -k ssh"    
+                echo "-w /etc/udev/rules.d/ -p wa -k udev"  
+                echo "-w /etc/profile -p wa -k profile"  
+                echo "-w /etc/kdump.conf -p wa -k kdump"  
+                echo "-w /etc/lvm/lvm.conf -p wa -k lvm"  
+                echo "-w /etc/login.defs -p wa -k login-defs"  
+                echo "-w /etc/sysconfig/i18n -p wa -k i18n"  
+                echo "-w /etc/sysconfig/network -p wa -k network"   
+                echo "-w /etc/rsyslog.conf -p wa -k rsyslog"  
+                  # echo "-w /etc/multipath.conf -p wa -k multipath"
               fi
        elif [ $os_no -le 5 ];then
               service sendmail stop
               chkconfig sendmail off
               chmod 600 /boot/grub/grub.conf
               # get user all actions in system in below 6
+              exec 1>>/etc/audit.audit.rules
               grep $k /etc/audit/audit.rules
-              echo "-a exit,always -F arch=b64 -S execve -k exec" >> /etc/audit/audit.rules
-              echo "-a exit,always -F arch=b32 -S execve -k exec" >> /etc/audit/audit.rules
-              echo "-w /etc/crontab -p wa -k crontab" >> /etc/audit/audit.rules
-              echo "-w /etc/hosts -p wa -k hosts" >> /etc/audit/audit.rules
-              echo "-w /etc/hosts.allow -p wa -k hosts-allow" >> /etc/audit/audit.rules
-              echo "-w /etc/hosts.deny -p wa -k hosts-deny" >> /etc/audit/audit.rules
-              echo "-w /etc/fstab -p wa -k fstab" >> /etc/audit/audit.rules
-              echo "-w /etc/passwd -p wa -k passwd" >> /etc/audit/audit.rules
-              echo "-w /etc/shadow -p wa -k shadow" >> /etc/audit/audit.rules
-              echo "-w /etc/group -p wa -k group" >> /etc/audit/audit.rules
-              echo "-w /etc/gshadow -p wa -k gshadow" >> /etc/audit/audit.rules
-             echo "-w /etc/ntp.conf -p wa -k ntp"  >> /etc/audit/audit.rules
-              echo "-w /etc/sysctl.conf -p wa -k sysctl" >> /etc/audit/audit.rules
-              echo "-w /etc/security/limits.conf -p wa -k limits" >> /etc/audit/audit.rules
-              echo "-w /boot/grub/grub.conf -p wa -k grub" >> /etc/audit/audit.rules
-              echo "-w /etc/ssh/sshd_config -p wa -k ssh"  >> /etc/audit/audit.rules 
-              echo "-w /etc/udev/rules.d/ -p wa -k udev" >> /etc/audit/audit.rules
-              echo "-w /etc/profile -p wa -k profile" >> /etc/audit/audit.rules
-              echo "-w /etc/kdump.conf -p wa -k kdump" >> /etc/audit/audit.rules
-              echo "-w /etc/lvm/lvm.conf -p wa -k lvm" >> /etc/audit/audit.rules
-              echo "-w /etc/login.defs -p wa -k login-defs" >> /etc/audit/audit.rules
-              echo "-w /etc/sysconfig/i18n -p wa -k i18n" >> /etc/audit/audit.rules
-              echo "-w /etc/sysconfig/network -p wa -k network"  >> /etc/audit/audit.rules
-                # echo "-w /etc/multipath.conf -p wa -k multipath" >> /etc/audit/audit.rules
+              echo "-a exit,always -F arch=b64 -S execve -k exec"  
+              echo "-a exit,always -F arch=b32 -S execve -k exec"  
+              echo "-w /etc/crontab -p wa -k crontab"  
+              echo "-w /etc/hosts -p wa -k hosts"  
+              echo "-w /etc/hosts.allow -p wa -k hosts-allow"  
+              echo "-w /etc/hosts.deny -p wa -k hosts-deny"  
+              echo "-w /etc/fstab -p wa -k fstab"  
+              echo "-w /etc/passwd -p wa -k passwd"  
+              echo "-w /etc/shadow -p wa -k shadow"  
+              echo "-w /etc/group -p wa -k group"  
+              echo "-w /etc/gshadow -p wa -k gshadow"  
+             echo "-w /etc/ntp.conf -p wa -k ntp"   
+              echo "-w /etc/sysctl.conf -p wa -k sysctl"  
+              echo "-w /etc/security/limits.conf -p wa -k limits"  
+              echo "-w /boot/grub/grub.conf -p wa -k grub"  
+              echo "-w /etc/ssh/sshd_config -p wa -k ssh"    
+              echo "-w /etc/udev/rules.d/ -p wa -k udev"  
+              echo "-w /etc/profile -p wa -k profile"  
+              echo "-w /etc/kdump.conf -p wa -k kdump"  
+              echo "-w /etc/lvm/lvm.conf -p wa -k lvm"  
+              echo "-w /etc/login.defs -p wa -k login-defs"  
+              echo "-w /etc/sysconfig/i18n -p wa -k i18n"  
+              echo "-w /etc/sysconfig/network -p wa -k network"   
+                # echo "-w /etc/multipath.conf -p wa -k multipath" 
               grep "syslog" /etc/audit/audit.rules
                 if [ $? -eq 0 ];then
                 	echo "Configured by admin."
@@ -103,31 +105,32 @@ do
            	  echo "All parameters were configured by Administrator."
            else
              # get user all actions in system in 7
-             echo "-a exit,always -F arch=b64 -S execve -k exec" >> /etc/audit/rules.d/audit.rules
-             echo "-a exit,always -F arch=b32 -S execve -k exec" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/crontab -p wa -k crontab" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/hosts -p wa -k hosts" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/hosts.allow -p wa -k hosts-allow" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/hosts.deny -p wa -k hosts-deny" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/fstab -p wa -k fstab" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/passwd -p wa -k passwd" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/shadow -p wa -k shadow" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/group -p wa -k group" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/gshadow -p wa -k gshadow" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/chrony.conf -p wa -k ntp" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/sysctl.conf -p wa -k sysctl" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/security/limits.conf -p wa -k limits" >> /etc/audit/rules.d/audit.rules
-             echo "-w /boot/grub2/grub.conf -p wa -k grub" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/ssh/sshd_config -p wa -k ssh" >> /etc/audit/rules.d/audit.rules 
-             echo "-w /etc/udev/rules.d/ -p wa -k udev" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/profile -p wa -k profile" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/kdump.conf -p wa -k kdump" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/lvm/lvm.conf -p wa -k lvm" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/login.defs -p wa -k login-defs" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/rsyslog.conf -p wa -k rsyslog" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/locale.conf -p wa -k i18n" >> /etc/audit/rules.d/audit.rules
-             echo "-w /etc/sysconfig/network -p wa -k network" >> /etc/audit/rules.d/audit.rules
-             # echo "-w /etc/multipath.conf -p wa -k multipath" >> /etc/audit/rules.d/audit.rules
+             exec 1>>/etc/audit/rules.d/audit.rules
+             echo "-a exit,always -F arch=b64 -S execve -k exec"  
+             echo "-a exit,always -F arch=b32 -S execve -k exec"  
+             echo "-w /etc/crontab -p wa -k crontab"  
+             echo "-w /etc/hosts -p wa -k hosts"  
+             echo "-w /etc/hosts.allow -p wa -k hosts-allow"  
+             echo "-w /etc/hosts.deny -p wa -k hosts-deny"  
+             echo "-w /etc/fstab -p wa -k fstab"  
+             echo "-w /etc/passwd -p wa -k passwd"  
+             echo "-w /etc/shadow -p wa -k shadow"  
+             echo "-w /etc/group -p wa -k group"  
+             echo "-w /etc/gshadow -p wa -k gshadow"  
+             echo "-w /etc/chrony.conf -p wa -k ntp"  
+             echo "-w /etc/sysctl.conf -p wa -k sysctl"  
+             echo "-w /etc/security/limits.conf -p wa -k limits"  
+             echo "-w /boot/grub2/grub.conf -p wa -k grub"  
+             echo "-w /etc/ssh/sshd_config -p wa -k ssh"   
+             echo "-w /etc/udev/rules.d/ -p wa -k udev"  
+             echo "-w /etc/profile -p wa -k profile"  
+             echo "-w /etc/kdump.conf -p wa -k kdump"  
+             echo "-w /etc/lvm/lvm.conf -p wa -k lvm"  
+             echo "-w /etc/login.defs -p wa -k login-defs"  
+             echo "-w /etc/rsyslog.conf -p wa -k rsyslog"  
+             echo "-w /etc/locale.conf -p wa -k i18n"  
+             echo "-w /etc/sysconfig/network -p wa -k network"  
+             # echo "-w /etc/multipath.conf -p wa -k multipath" 
            fi
        fi
      done  
