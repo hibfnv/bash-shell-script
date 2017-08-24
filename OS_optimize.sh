@@ -23,7 +23,7 @@ do
            			echo "All parameters were configured by Administrator."
            		else
                 # get user all actions in system in below 6
-                exec 1>>/etc/audit/audit.rules
+                exec 1>/etc/audit/audit.rules
                 echo "-a exit,always -F arch=b64 -S execve -k exec"  
                 echo "-a exit,always -F arch=b32 -S execve -k exec"  
                 echo "-w /etc/crontab -p wa -k crontab"  
@@ -55,7 +55,7 @@ do
               chkconfig sendmail off
               chmod 600 /boot/grub/grub.conf
               # get user all actions in system in below 6
-              exec 1>>/etc/audit.audit.rules
+              exec 1>/etc/audit.audit.rules
               grep $k /etc/audit/audit.rules
               echo "-a exit,always -F arch=b64 -S execve -k exec"  
               echo "-a exit,always -F arch=b32 -S execve -k exec"  
@@ -105,7 +105,7 @@ do
            	  echo "All parameters were configured by Administrator."
            else
              # get user all actions in system in 7
-             exec 1>>/etc/audit/rules.d/audit.rules
+             exec 1>/etc/audit/rules.d/audit.rules
              echo "-a exit,always -F arch=b64 -S execve -k exec"  
              echo "-a exit,always -F arch=b32 -S execve -k exec"  
              echo "-w /etc/crontab -p wa -k crontab"  
