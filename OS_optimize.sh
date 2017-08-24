@@ -55,32 +55,36 @@ do
               chkconfig sendmail off
               chmod 600 /boot/grub/grub.conf
               # get user all actions in system in below 6
-              exec 1>/etc/audit.audit.rules
-              grep $k /etc/audit/audit.rules
-              echo "-a exit,always -F arch=b64 -S execve -k exec"
-              echo "-a exit,always -F arch=b32 -S execve -k exec"
-              echo "-w /etc/crontab -p wa -k crontab"
-              echo "-w /etc/hosts -p wa -k hosts"
-              echo "-w /etc/hosts.allow -p wa -k hosts-allow"
-              echo "-w /etc/hosts.deny -p wa -k hosts-deny"
-              echo "-w /etc/fstab -p wa -k fstab"
-              echo "-w /etc/passwd -p wa -k passwd"
-              echo "-w /etc/shadow -p wa -k shadow"
-              echo "-w /etc/group -p wa -k group"
-              echo "-w /etc/gshadow -p wa -k gshadow"
-             echo "-w /etc/ntp.conf -p wa -k ntp"
-              echo "-w /etc/sysctl.conf -p wa -k sysctl"
-              echo "-w /etc/security/limits.conf -p wa -k limits"
-              echo "-w /boot/grub/grub.conf -p wa -k grub"
-              echo "-w /etc/ssh/sshd_config -p wa -k ssh"
-              echo "-w /etc/udev/rules.d/ -p wa -k udev"
-              echo "-w /etc/profile -p wa -k profile"
-              echo "-w /etc/kdump.conf -p wa -k kdump"
-              echo "-w /etc/lvm/lvm.conf -p wa -k lvm"
-              echo "-w /etc/login.defs -p wa -k login-defs"
-              echo "-w /etc/sysconfig/i18n -p wa -k i18n"
-              echo "-w /etc/sysconfig/network -p wa -k network"
-                # echo "-w /etc/multipath.conf -p wa -k multipath"
+	      grep $k /etc/audit/audit.rules
+	      if [ $? -eq 0 ];then
+	          echo "All parameters were set."
+	      else
+                exec 1>/etc/audit.audit.rules
+                echo "-a exit,always -F arch=b64 -S execve -k exec"
+                echo "-a exit,always -F arch=b32 -S execve -k exec"
+                echo "-w /etc/crontab -p wa -k crontab"
+                echo "-w /etc/hosts -p wa -k hosts"
+                echo "-w /etc/hosts.allow -p wa -k hosts-allow"
+                echo "-w /etc/hosts.deny -p wa -k hosts-deny"
+                echo "-w /etc/fstab -p wa -k fstab"
+                echo "-w /etc/passwd -p wa -k passwd"
+                echo "-w /etc/shadow -p wa -k shadow"
+                echo "-w /etc/group -p wa -k group"
+                echo "-w /etc/gshadow -p wa -k gshadow"
+                echo "-w /etc/ntp.conf -p wa -k ntp"
+                echo "-w /etc/sysctl.conf -p wa -k sysctl"
+                echo "-w /etc/security/limits.conf -p wa -k limits"
+                echo "-w /boot/grub/grub.conf -p wa -k grub"
+                echo "-w /etc/ssh/sshd_config -p wa -k ssh"
+                echo "-w /etc/udev/rules.d/ -p wa -k udev"
+                echo "-w /etc/profile -p wa -k profile"
+                echo "-w /etc/kdump.conf -p wa -k kdump"
+                echo "-w /etc/lvm/lvm.conf -p wa -k lvm"
+                echo "-w /etc/login.defs -p wa -k login-defs"
+                echo "-w /etc/sysconfig/i18n -p wa -k i18n"
+                echo "-w /etc/sysconfig/network -p wa -k network"
+                 # echo "-w /etc/multipath.conf -p wa -k multipath"
+	      fi
               grep "syslog" /etc/audit/audit.rules
                 if [ $? -eq 0 ];then
                 	echo "Configured by admin."
