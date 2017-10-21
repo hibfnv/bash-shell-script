@@ -27,8 +27,17 @@ else
     cwd=/etc/yum.repos.d/
     bwd=/usr/backup
     fn1=local.repo
-    mkdir -p $imgwd
-    mount /dev/sr0 $imgwd
+    if [ ! -d $imgwd ];then
+       mkdir -p $imgwd
+    else
+       retval=`mount -l |grep /dev/sr0|wc -l`
+          if [ $retval -eq 1 ];then
+          	cp -arvf /mnt/* $imgwd/
+          else
+            mount /dev/sr0 /mnt
+            cp -arvf /mnt/* $imgwd/
+          fi
+    fi
     if [ ! -d $bwd ];then
          mkdir -p $bwd
     else
@@ -37,7 +46,7 @@ else
     if [ ! -f $cwd$fn1 ];then
         echo "[Base]" >> $cwd$fn1
         echo "name=CentOS7.2 Repository" >> $cwd$fn1
-        echo "baseurl=file:///home/cuser/images" >> $cwd$fn1
+        echo "baseurl=file://$imgwd" >> $cwd$fn1
         echo "gpgcheck=0" >> $cwd$fn1
         echo "enable=1" >> $cwd$fn1
         yum update
@@ -49,7 +58,7 @@ else
               if [ $reval -ne 0 ];then
                   echo "[Base]" >> $cwd$fn1
                   echo "name=CentOS7.2 Repository" >> $cwd$fn1
-                  echo "baseurl=file:///home/cuser/images" >> $cwd$fn1
+                  echo "baseurl=file://$imgwd" >> $cwd$fn1
                   echo "gpgcheck=0" >> $cwd$fn1
                   echo "enable=1" >> $cwd$fn1
                   yum update
