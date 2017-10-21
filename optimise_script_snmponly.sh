@@ -27,30 +27,35 @@ else
     cwd=/etc/yum.repos.d/
     bwd=/usr/backup
     fn1=local.repo
-    if [ ! -d $imgwd ];then
-       mkdir -p $imgwd
-    else
-       retval=`mount -l |grep /dev/sr0|wc -l`
-          if [ $retval -eq 1 ];then
-          	cp -arvf /mnt/* $imgwd/
-          else
-            mount /dev/sr0 /mnt
-            cp -arvf /mnt/* $imgwd/
-          fi
-    fi
+        if [ ! -d $imgwd ];then
+           mkdir -p $imgwd
+        else
+           pnum=`ls -l $imgwd|wc -l`
+           if [ $pnum -ge 1 ];then
+           	   echo
+           else
+                   retval=`mount -l |grep /dev/sr0|wc -l`
+                      if [ $retval -eq 1 ];then
+          	              cp -arvf /mnt/* $imgwd/
+                      else
+                          mount /dev/sr0 /mnt
+                          cp -arvf /mnt/* $imgwd/
+                      fi
+           fi           
+        fi
     if [ ! -d $bwd ];then
          mkdir -p $bwd
     else
         mv $cwd/*.repo $bwd
     fi
-    if [ ! -f $cwd$fn1 ];then
+      if [ ! -f $cwd$fn1 ];then
         echo "[Base]" >> $cwd$fn1
         echo "name=CentOS7.2 Repository" >> $cwd$fn1
         echo "baseurl=file://$imgwd" >> $cwd$fn1
         echo "gpgcheck=0" >> $cwd$fn1
         echo "enable=1" >> $cwd$fn1
         yum update
-    else
+      else
         for str in Base name baseurl gpgcheck enable
             do
                 grep $str $cwd$fn1
@@ -66,6 +71,6 @@ else
                   echo
               fi
             done
-    fi
-fi
+      fi
     yum install net-snmp net-snmp-devel net-snmp-utils -y
+fi
