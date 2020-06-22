@@ -54,6 +54,12 @@ else
     echo -e "\033[32m用户已删除成功！！！\n\033[0m"
 fi
 }
+# Linux 四个界定：
+# PS1: Shell默认界定符
+# PS2: 命令提示符界定符
+# PS3: select语句界定符
+# PS4: set-x语句界定符
+
 
 PS3="请输入选择项: "
 select option in "添加新用户" "添加私匙" "重置密码" "删除用户" "退出程序"
