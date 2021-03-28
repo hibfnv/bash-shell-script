@@ -30,7 +30,7 @@ while [ $? -eq 0];
 if [ -f $f_name -o -d $f_name ];
    then
 # File exist then add to list
-     f_list=""$f_list $f_name"
+     f_list="$f_list $f_name"
    else
      # file not exist then show errors
       echo
